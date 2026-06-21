@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Electrostatics Viva — Class 9</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#0A0C14;
+    --surface:#12162A;
+    --surface-2:#1A2038;
+    --surface-3:#222A47;
+    --line:#2B3354;
+    --spark:#F5C842;
+    --spark-dim:#7A6326;
+    --arc:#6FE3FF;
+    --text:#ECEEF5;
+    --muted:#8990AC;
+    --good:#5CDB95;
+    --good-dim:#1F4A3A;
+    --bad:#FF6B6B;
+    --bad-dim:#4A2424;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(245,200,66,0.07), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 0%, rgba(111,227,255,0.05), transparent 60%),
+      var(--void);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:28px 18px 60px;
+  }
+  .top{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:22px;
+    gap:12px;
+  }
+  .brand{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--spark);
+  }
+  .brand span{color:var(--muted); font-weight:500; text-transform:none; letter-spacing:0;}
+  .meter{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--muted);
+    text-align:right;
+  }
+  .meter b{color:var(--text); font-weight:600;}
+
+  /* divider bolt */
+  .bolt-rule{ width:100%; height:14px; margin:4px 0 22px; opacity:0.55; }
+
+  /* ---------- screens ---------- */
+  .screen{display:none;}
+  .screen.active{display:block;}
+
+  /* START SCREEN */
+  .hero{
+    text-align:center;
+    padding:38px 14px 30px;
+  }
+  .hero .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--arc);
+    margin-bottom:14px;
+  }
+  .hero h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(32px, 7vw, 48px);
+    line-height:1.05;
+    margin:0 0 14px;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--spark);
+  }
+  .hero p{
+    color:var(--muted);
+    font-size:15.5px;
+    max-width:440px;
+    margin:0 auto;
+    line-height:1.55;
+  }
+  .start-panel{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:24px;
+    margin-top:30px;
+  }
+  .opt-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 4px;
+    border-bottom:1px solid var(--line);
+  }
+  .opt-row:last-of-type{border-bottom:none;}
+  .opt-row .label{font-size:14.5px; font-weight:500;}
+  .opt-row .sub{font-size:12.5px; color:var(--muted); margin-top:2px;}
+  .toggle{
+    width:46px; height:26px;
+    background:var(--surface-3);
+    border-radius:14px;
+    position:relative;
+    cursor:pointer;
+    border:1px solid var(--line);
+    flex-shrink:0;
+    transition:background 0.2s;
+  }
+  .toggle.on{background:var(--spark-dim);}
+  .toggle::after{
+    content:'';
+    position:absolute;
+    top:2px; left:2px;
+    width:20px; height:20px;
+    background:var(--muted);
+    border-radius:50%;
+    transition:transform 0.2s, background 0.2s;
+  }
+  .toggle.on::after{transform:translateX(20px); background:var(--spark);}
+
+  .btn-primary{
+    width:100%;
+    margin-top:22px;
+    padding:16px;
+    background:var(--spark);
+    color:#1A1404;
+    border:none;
+    border-radius:12px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:16px;
+    letter-spacing:0.01em;
+    cursor:pointer;
+    transition:transform 0.12s, box-shadow 0.12s;
+    box-shadow:0 0 0 0 rgba(245,200,66,0);
+  }
+  .btn-primary:active{transform:scale(0.985);}
+  .btn-primary:hover{box-shadow:0 6px 24px rgba(245,200,66,0.18);}
+
+  .credit{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    margin-top:18px;
+    line-height:1.6;
+  }
+
+  /* RAIL */
+  .rail-panel{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px 16px;
+    margin-bottom:18px;
+  }
+  .rail-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+  }
+  .rail-head .t{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .rail{
+    display:grid;
+    grid-template-columns:repeat(20, 1fr);
+    gap:5px;
+  }
+  .node{
+    aspect-ratio:1;
+    border-radius:3px;
+    background:var(--surface-3);
+    border:1px solid var(--line);
+    transition:background 0.25s, box-shadow 0.25s, border-color 0.25s;
+  }
+  .node.current{
+    border-color:var(--arc);
+    box-shadow:0 0 0 2px rgba(111,227,255,0.18);
+  }
+  .node.correct{background:var(--spark); border-color:var(--spark); box-shadow:0 0 8px rgba(245,200,66,0.5);}
+  .node.wrong{background:var(--bad-dim); border-color:var(--bad);}
+
+  /* QUESTION CARD */
+  .qcard{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:26px 22px 22px;
+  }
+  .qnum{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--arc);
+    font-size:13px;
+    letter-spacing:0.08em;
+    margin-bottom:10px;
+  }
+  .qtext{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:clamp(19px, 4.4vw, 23px);
+    line-height:1.32;
+    margin-bottom:22px;
+  }
+  .options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:20px;
+  }
+  @media (max-width:480px){
+    .options{grid-template-columns:1fr;}
+  }
+  .opt{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 14px;
+    background:var(--surface-2);
+    border:1.5px solid var(--line);
+    border-radius:12px;
+    font-size:14.5px;
+    line-height:1.3;
+    cursor:pointer;
+    transition:border-color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.1s;
+  }
+  .opt:active{transform:scale(0.985);}
+  .opt .letter{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:600;
+    font-size:13px;
+    width:22px; height:22px;
+    border-radius:6px;
+    background:var(--surface-3);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--muted);
+    transition:background 0.2s, color 0.2s;
+  }
+
+  /* tapped option turns out correct */
+  .opt.pick-correct{
+    border-color:var(--good);
+    background:rgba(92,219,149,0.1);
+    box-shadow:0 0 0 1px var(--good);
+    animation:good-pulse 0.6s ease-out;
+  }
+  .opt.pick-correct .letter{background:var(--good); color:#06281B;}
+
+  /* tapped option turns out wrong */
+  .opt.pick-wrong{
+    border-color:var(--bad);
+    background:rgba(255,107,107,0.1);
+    box-shadow:0 0 0 1px var(--bad);
+    animation:bad-shake 0.4s ease-out;
+  }
+  .opt.pick-wrong .letter{background:var(--bad); color:#2B0A0A;}
+
+  /* the actual correct answer, shown when student missed it */
+  .opt.show-correct{
+    border-color:var(--spark);
+    background:rgba(245,200,66,0.08);
+    box-shadow:0 0 0 1px var(--spark);
+  }
+  .opt.show-correct .letter{background:var(--spark); color:#1A1404;}
+
+  .opt.dimmed{opacity:0.4;}
+  .opt.locked{cursor:default;}
+
+  @keyframes good-pulse{
+    0%{box-shadow:0 0 0 0 rgba(92,219,149,0.55);}
+    60%{box-shadow:0 0 0 12px rgba(92,219,149,0);}
+    100%{box-shadow:0 0 0 0 rgba(92,219,149,0);}
+  }
+  @keyframes bad-shake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-4px);}
+    50%{transform:translateX(4px);}
+    75%{transform:translateX(-3px);}
+  }
+
+  /* feedback banner */
+  .feedback{
+    display:none;
+    align-items:center;
+    gap:10px;
+    padding:14px 16px;
+    border-radius:12px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:15px;
+    margin-bottom:16px;
+    animation:banner-in 0.25s ease-out;
+  }
+  .feedback.show{display:flex;}
+  .feedback .icon{font-size:20px;}
+  .feedback.correct{
+    background:var(--good-dim);
+    border:1px solid var(--good);
+    color:var(--good);
+  }
+  .feedback.wrong{
+    background:var(--bad-dim);
+    border:1px solid var(--bad);
+    color:var(--bad);
+  }
+  .feedback .sub{
+    display:block;
+    font-weight:500;
+    font-size:13px;
+    color:var(--text);
+    margin-top:2px;
+  }
+  @keyframes banner-in{
+    from{opacity:0; transform:translateY(-6px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  .divider{height:1px; background:var(--line); margin:4px 0 18px;}
+
+  .controls{display:flex; flex-direction:column; gap:10px;}
+  .row-2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+
+  .btn{
+    padding:14px;
+    border-radius:12px;
+    border:1.5px solid var(--line);
+    background:var(--surface-2);
+    color:var(--text);
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    cursor:pointer;
+    transition:transform 0.12s, border-color 0.15s, background 0.15s;
+  }
+  .btn:active{transform:scale(0.98);}
+  .btn-next{background:var(--arc); border-color:var(--arc); color:#08222B;}
+  .btn-ghost{background:transparent; color:var(--muted); border-color:var(--line); font-size:13px; padding:11px;}
+  .btn[disabled]{opacity:0.4; cursor:not-allowed;}
+
+  /* END SCREEN */
+  .end-hero{text-align:center; padding:30px 10px 10px;}
+  .end-hero .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--arc); margin-bottom:14px;
+  }
+  .score-big{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:600;
+    font-size:clamp(48px,14vw,72px);
+    color:var(--spark);
+    line-height:1;
+    margin-bottom:6px;
+  }
+  .score-big span{font-size:0.4em; color:var(--muted);}
+  .pct{color:var(--muted); font-size:15px; margin-bottom:30px;}
+  .missed-panel{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:18px 20px;
+    margin-bottom:18px;
+    text-align:left;
+  }
+  .missed-panel h3{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:14px;
+    margin:0 0 12px;
+    color:var(--bad);
+  }
+  .missed-item{
+    font-size:13.5px;
+    padding:9px 0;
+    border-bottom:1px solid var(--line);
+    color:var(--muted);
+  }
+  .missed-item:last-child{border-bottom:none;}
+  .missed-item b{color:var(--text); font-weight:600;}
+  .missed-item .ans{color:var(--good);}
+
+  @media (max-width: 420px){
+    .rail{grid-template-columns:repeat(12,1fr);}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div class="brand">Spark<span> Viva</span></div>
+    <div class="meter" id="topMeter"></div>
+  </div>
+
+  <svg class="bolt-rule" viewBox="0 0 600 14" preserveAspectRatio="none">
+    <polyline points="0,7 120,7 140,1 160,13 180,7 600,7" fill="none" stroke="#2B3354" stroke-width="1.5"/>
+  </svg>
+
+  <!-- START -->
+  <section class="screen active" id="screen-start">
+    <div class="hero">
+      <div class="eyebrow"><h3>Class 9 · F.E.S.</h3></div>
+      <h1>Introduction to Electrostatics<br><em>Viva Examination</em></h1>
+      <p>60 oral-exam questions on charge, current, and the basics of static electricity. Read each question aloud, then mark the student's answer.</p>
+    </div>
+
+    <div class="start-panel">
+      <div class="opt-row">
+        <div>
+          <div class="label">Shuffle question order</div>
+          <div class="sub">Mix up the sequence for repeat vivas</div>
+        </div>
+        <div class="toggle" id="toggleShuffle"></div>
+      </div>
+      <div class="opt-row">
+        <div>
+          <div class="label">Sound on key actions</div>
+          <div class="sub">Soft click on reveal &amp; marking</div>
+        </div>
+        <div class="toggle on" id="toggleSound"></div>
+      </div>
+      <button class="btn-primary" id="btnBegin">Begin Viva →</button>
+    </div>
+
+    <div class="credit"> <h2> &nbsp;·&nbsp; Created by Hikmat Shahi Thakuri</h2><h3>Assistant Computer Instructor</h3></div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="screen" id="screen-quiz">
+    <div class="rail-panel">
+      <div class="rail-head">
+        <div class="t">Charge Bank</div>
+        <div class="t" id="railCount">0 / 60</div>
+      </div>
+      <div class="rail" id="rail"></div>
+    </div>
+
+    <div class="qcard">
+      <div class="qnum" id="qnum">QUESTION 01 / 60</div>
+      <div class="qtext" id="qtext"></div>
+
+      <div class="feedback" id="feedback">
+        <div class="icon" id="feedbackIcon">🎉</div>
+        <div>
+          <div id="feedbackTitle">Correct!</div>
+          <span class="sub" id="feedbackSub"></span>
+        </div>
+      </div>
+
+      <div class="options" id="options"></div>
+
+      <div class="divider"></div>
+
+      <div class="controls">
+        <button class="btn btn-next" id="btnNext" disabled>Next question →</button>
+        <button class="btn btn-ghost" id="btnSkip">Skip without scoring</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- END -->
+  <section class="screen" id="screen-end">
+    <div class="end-hero">
+      <div class="eyebrow">Viva Complete</div>
+      <div class="score-big" id="finalScore">0<span>/60</span></div>
+      <div class="pct" id="finalPct">0% correct</div>
+    </div>
+
+    <div class="missed-panel" id="missedPanel" style="display:none;">
+      <h3>Questions to revisit</h3>
+      <div id="missedList"></div>
+    </div>
+
+    <button class="btn-primary" id="btnRestart">Run Viva Again</button>
+  </section>
+
+</div>
+
+<script>
+const QUESTIONS = [{"num":1,"q":"Electricity is the state of electric charge either in","options":{"A":"Rest or motion","B":"Heat or light","C":"Sound or pressure","D":"Mass or energy"},"correct":"A"},{"num":2,"q":"Static electricity deals with electricity","options":{"A":"In motion","B":"At rest","C":"In vacuum only","D":"In metals only"},"correct":"B"},{"num":3,"q":"Dynamic electricity deals with electricity","options":{"A":"At rest","B":"In motion","C":"In gases only","D":"In liquids only"},"correct":"B"},{"num":4,"q":"The negatively charged particle is","options":{"A":"Proton","B":"Neutron","C":"Electron","D":"Nucleus"},"correct":"C"},{"num":5,"q":"The positively charged particle is","options":{"A":"Electron","B":"Proton","C":"Neutron","D":"Photon"},"correct":"B"},{"num":6,"q":"Benjamin Franklin proved that lightning is","options":{"A":"Sound","B":"Heat","C":"Static electricity","D":"Magnetism"},"correct":"C"},{"num":7,"q":"Benjamin Franklin performed his famous kite experiment in","options":{"A":"1652","B":"1752","C":"1852","D":"1952"},"correct":"B"},{"num":8,"q":"The SI unit of charge is","options":{"A":"Volt","B":"Ampere","C":"Coulomb","D":"Ohm"},"correct":"C"},{"num":9,"q":"Like charges","options":{"A":"Attract","B":"Repel","C":"Neutralize","D":"Disappear"},"correct":"B"},{"num":10,"q":"Unlike charges","options":{"A":"Repel","B":"Attract","C":"Rotate","D":"Ionize"},"correct":"B"},{"num":11,"q":"Charging by rubbing is called","options":{"A":"Induction","B":"Friction","C":"Conduction","D":"Radiation"},"correct":"B"},{"num":12,"q":"A plastic rod rubbed with silk becomes","options":{"A":"Positively charged","B":"Negatively charged","C":"Neutral","D":"Magnetic"},"correct":"B"},{"num":13,"q":"The center of an atom is called","options":{"A":"Shell","B":"Orbit","C":"Nucleus","D":"Core"},"correct":"C"},{"num":14,"q":"A neutron has","options":{"A":"Positive charge","B":"Negative charge","C":"No charge","D":"Double charge"},"correct":"C"},{"num":15,"q":"The flow of electric charge is","options":{"A":"Voltage","B":"Current","C":"Resistance","D":"Power"},"correct":"B"},{"num":16,"q":"Electric current is measured in","options":{"A":"Volt","B":"Coulomb","C":"Ampere","D":"Watt"},"correct":"C"},{"num":17,"q":"Voltage is measured in","options":{"A":"Ampere","B":"Ohm","C":"Volt","D":"Watt"},"correct":"C"},{"num":18,"q":"Resistance is measured in","options":{"A":"Volt","B":"Ohm","C":"Coulomb","D":"Ampere"},"correct":"B"},{"num":19,"q":"The force between charges is called","options":{"A":"Nuclear force","B":"Electrostatic force","C":"Gravitational force","D":"Frictional force"},"correct":"B"},{"num":20,"q":"The law governing electrostatic force is","options":{"A":"Newton's Law","B":"Coulomb's Law","C":"Ohm's Law","D":"Faraday's Law"},"correct":"B"},{"num":21,"q":"An electroscope is used to","options":{"A":"Measure current","B":"Detect charge","C":"Measure voltage","D":"Produce charge"},"correct":"B"},{"num":22,"q":"Charge acquired without contact is","options":{"A":"Friction","B":"Induction","C":"Radiation","D":"Heating"},"correct":"B"},{"num":23,"q":"The smallest unit of negative charge is carried by","options":{"A":"Proton","B":"Electron","C":"Neutron","D":"Nucleus"},"correct":"B"},{"num":24,"q":"Lightning occurs due to","options":{"A":"Static charge accumulation","B":"Magnetism","C":"Sound waves","D":"Gravity"},"correct":"A"},{"num":25,"q":"Glass rubbed with silk becomes","options":{"A":"Negatively charged","B":"Positively charged","C":"Neutral","D":"Magnetic"},"correct":"B"},{"num":26,"q":"Charge cannot be","options":{"A":"Transferred","B":"Conserved","C":"Created or destroyed","D":"Measured"},"correct":"C"},{"num":27,"q":"The law of conservation of charge states","options":{"A":"Charge is lost","B":"Charge is gained","C":"Total charge remains constant","D":"Charge doubles"},"correct":"C"},{"num":28,"q":"Materials through which charge flows easily are","options":{"A":"Insulators","B":"Conductors","C":"Semiconductors","D":"Polymers"},"correct":"B"},{"num":29,"q":"Rubber is a","options":{"A":"Conductor","B":"Insulator","C":"Semiconductor","D":"Superconductor"},"correct":"B"},{"num":30,"q":"Copper is a","options":{"A":"Conductor","B":"Insulator","C":"Semiconductor","D":"Dielectric"},"correct":"A"},{"num":31,"q":"The unit of electric potential is","options":{"A":"Volt","B":"Ampere","C":"Watt","D":"Ohm"},"correct":"A"},{"num":32,"q":"Potential difference is the work done per unit","options":{"A":"Force","B":"Charge","C":"Mass","D":"Time"},"correct":"B"},{"num":33,"q":"The device that provides electrical energy is","options":{"A":"Resistor","B":"Battery","C":"Switch","D":"Fuse"},"correct":"B"},{"num":34,"q":"A 12-volt battery provides","options":{"A":"12 A current","B":"12 J/C energy","C":"12 W power","D":"12 Ω resistance"},"correct":"B"},{"num":35,"q":"Electrons move from","options":{"A":"Positive to negative","B":"Negative to positive","C":"North to south","D":"East to west"},"correct":"B"},{"num":36,"q":"The study of charges at rest is","options":{"A":"Electromagnetism","B":"Electrostatics","C":"Electronics","D":"Thermodynamics"},"correct":"B"},{"num":37,"q":"Unit of electric power","options":{"A":"Volt","B":"Watt","C":"Ohm","D":"Coulomb"},"correct":"B"},{"num":38,"q":"Electric charge is represented by","options":{"A":"I","B":"V","C":"Q","D":"R"},"correct":"C"},{"num":39,"q":"Current is represented by","options":{"A":"I","B":"V","C":"Q","D":"P"},"correct":"A"},{"num":40,"q":"Voltage is represented by","options":{"A":"R","B":"P","C":"V","D":"Q"},"correct":"C"},{"num":41,"q":"The instrument used to measure current","options":{"A":"Voltmeter","B":"Ammeter","C":"Barometer","D":"Hygrometer"},"correct":"B"},{"num":42,"q":"The instrument used to measure voltage","options":{"A":"Ammeter","B":"Voltmeter","C":"Thermometer","D":"Galvanometer"},"correct":"B"},{"num":43,"q":"Current in metals is due to","options":{"A":"Protons","B":"Electrons","C":"Neutrons","D":"Atoms"},"correct":"B"},{"num":44,"q":"A neutral atom contains","options":{"A":"More protons","B":"More electrons","C":"Equal protons and electrons","D":"Only neutrons"},"correct":"C"},{"num":45,"q":"Removing electrons makes an object","options":{"A":"Negative","B":"Positive","C":"Neutral","D":"Magnetic"},"correct":"B"},{"num":46,"q":"Gaining electrons makes an object","options":{"A":"Positive","B":"Negative","C":"Neutral","D":"Hot"},"correct":"B"},{"num":47,"q":"Electrostatic force can act","options":{"A":"Only on contact","B":"At a distance","C":"Inside metals only","D":"In vacuum only"},"correct":"B"},{"num":48,"q":"Clouds become charged mainly due to","options":{"A":"Friction","B":"Gravity","C":"Magnetism","D":"Sound"},"correct":"A"},{"num":49,"q":"Which is an insulator?","options":{"A":"Copper","B":"Aluminium","C":"Plastic","D":"Iron"},"correct":"C"},{"num":50,"q":"Which is a conductor?","options":{"A":"Wood","B":"Glass","C":"Silver","D":"Rubber"},"correct":"C"},{"num":51,"q":"Charge by touching is","options":{"A":"Conduction","B":"Induction","C":"Radiation","D":"Reflection"},"correct":"A"},{"num":52,"q":"Static electricity is commonly observed in","options":{"A":"Moving current","B":"Rubbed objects","C":"Water flow","D":"Sound waves"},"correct":"B"},{"num":53,"q":"The unit of resistance is","options":{"A":"Volt","B":"Ohm","C":"Watt","D":"Coulomb"},"correct":"B"},{"num":54,"q":"Coulomb is a unit of","options":{"A":"Current","B":"Charge","C":"Voltage","D":"Power"},"correct":"B"},{"num":55,"q":"The symbol of resistance is","options":{"A":"I","B":"R","C":"V","D":"Q"},"correct":"B"},{"num":56,"q":"The symbol of potential difference is","options":{"A":"V","B":"I","C":"R","D":"P"},"correct":"A"},{"num":57,"q":"The charge on a proton is","options":{"A":"Positive","B":"Negative","C":"Neutral","D":"Variable"},"correct":"A"},{"num":58,"q":"The charge on an electron is","options":{"A":"Positive","B":"Negative","C":"Neutral","D":"Double positive"},"correct":"B"},{"num":59,"q":"Electrostatic attraction of paper pieces to a rubbed comb is an example of","options":{"A":"Dynamic electricity","B":"Static electricity","C":"Magnetism","D":"Gravity"},"correct":"B"},{"num":60,"q":"The branch of science dealing with electric charges is","options":{"A":"Optics","B":"Acoustics","C":"Electricity","D":"Geology"},"correct":"C"}];
+
+let state = {
+  order: [],
+  idx: 0,
+  results: {}, // num -> 'correct' | 'wrong'
+  revealed: false,
+  shuffle: false,
+  sound: true
+};
+
+const el = id => document.getElementById(id);
+
+function shuffleArr(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function beep(freq, dur){
+  if(!state.sound) return;
+  try{
+    const ctx = beep.ctx || (beep.ctx = new (window.AudioContext||window.webkitAudioContext)());
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type='sine'; o.frequency.value=freq;
+    g.gain.setValueAtTime(0.05, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+dur);
+    o.connect(g); g.connect(ctx.destination);
+    o.start(); o.stop(ctx.currentTime+dur);
+  }catch(e){}
+}
+
+// ---- toggles on start screen ----
+el('toggleShuffle').addEventListener('click', ()=>{
+  state.shuffle = !state.shuffle;
+  el('toggleShuffle').classList.toggle('on', state.shuffle);
+});
+el('toggleSound').addEventListener('click', ()=>{
+  state.sound = !state.sound;
+  el('toggleSound').classList.toggle('on', state.sound);
+});
+
+el('btnBegin').addEventListener('click', startViva);
+el('btnRestart').addEventListener('click', ()=>{
+  showScreen('start');
+});
+
+function startViva(){
+  const nums = QUESTIONS.map(q=>q.num);
+  state.order = state.shuffle ? shuffleArr(nums) : nums;
+  state.idx = 0;
+  state.results = {};
+  buildRail();
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function showScreen(name){
+  ['start','quiz','end'].forEach(s=>{
+    el('screen-'+s).classList.toggle('active', s===name);
+  });
+}
+
+function buildRail(){
+  const rail = el('rail');
+  rail.innerHTML = '';
+  state.order.forEach((num, i)=>{
+    const d = document.createElement('div');
+    d.className = 'node';
+    d.dataset.num = num;
+    rail.appendChild(d);
+  });
+}
+
+function updateRail(){
+  const nodes = el('rail').children;
+  for(let i=0;i<nodes.length;i++){
+    const num = state.order[i];
+    const n = nodes[i];
+    n.classList.remove('current','correct','wrong');
+    if(i===state.idx) n.classList.add('current');
+    const r = state.results[num];
+    if(r==='correct') n.classList.add('correct');
+    if(r==='wrong') n.classList.add('wrong');
+  }
+  const done = Object.keys(state.results).length;
+  el('railCount').textContent = done + ' / 60';
+}
+
+function currentQuestion(){
+  const num = state.order[state.idx];
+  return QUESTIONS.find(q=>q.num===num);
+}
+
+function renderQuestion(){
+  const q = currentQuestion();
+  el('qnum').textContent = `QUESTION ${String(state.idx+1).padStart(2,'0')} / 60`;
+  el('qtext').textContent = q.q;
+
+  const fb = el('feedback');
+  fb.classList.remove('show','correct','wrong');
+
+  const optsWrap = el('options');
+  optsWrap.innerHTML = '';
+  ['A','B','C','D'].forEach(letter=>{
+    const o = document.createElement('div');
+    o.className = 'opt';
+    o.dataset.letter = letter;
+    o.innerHTML = `<div class="letter">${letter}</div><div>${q.options[letter]}</div>`;
+    o.addEventListener('click', ()=>handlePick(letter));
+    optsWrap.appendChild(o);
+  });
+
+  state.answered = false;
+  el('btnNext').disabled = true;
+
+  updateRail();
+  updateTopMeter();
+}
+
+function updateTopMeter(){
+  const done = Object.keys(state.results).length;
+  const correct = Object.values(state.results).filter(r=>r==='correct').length;
+  el('topMeter').innerHTML = `<b>${correct}</b>/${done} correct &nbsp;·&nbsp; Q${state.idx+1}/60`;
+}
+
+function handlePick(letter){
+  if(state.answered) return;
+  state.answered = true;
+
+  const q = currentQuestion();
+  const isCorrect = letter === q.correct;
+  state.results[q.num] = isCorrect ? 'correct' : 'wrong';
+
+  const opts = el('options').children;
+  for(const o of opts){
+    o.classList.add('locked');
+    if(o.dataset.letter === letter){
+      o.classList.add(isCorrect ? 'pick-correct' : 'pick-wrong');
+    } else if(o.dataset.letter === q.correct && !isCorrect){
+      o.classList.add('show-correct');
+    } else {
+      o.classList.add('dimmed');
+    }
+    o.replaceWith(o.cloneNode(true)); // strip click listener, keep classes/markup
+  }
+
+  const fb = el('feedback');
+  fb.classList.add('show', isCorrect ? 'correct' : 'wrong');
+  el('feedbackIcon').textContent = isCorrect ? '🎉' : '⚡';
+  el('feedbackTitle').textContent = isCorrect ? 'Correct! Congratulations!' : 'Incorrect answer';
+  el('feedbackSub').textContent = isCorrect
+    ? ''
+    : `Correct answer: ${q.correct}. ${q.options[q.correct]}`;
+
+  el('btnNext').disabled = false;
+  updateRail();
+  updateTopMeter();
+  beep(isCorrect ? 660 : 220, 0.15);
+}
+
+el('btnNext').addEventListener('click', advance);
+el('btnSkip').addEventListener('click', advance);
+
+function advance(){
+  if(state.idx < state.order.length-1){
+    state.idx++;
+    renderQuestion();
+  } else {
+    finishViva();
+  }
+}
+
+function finishViva(){
+  const done = Object.keys(state.results).length;
+  const correct = Object.values(state.results).filter(r=>r==='correct').length;
+  el('finalScore').innerHTML = `${correct}<span>/${done || 60}</span>`;
+  const pct = done ? Math.round((correct/done)*100) : 0;
+  el('finalPct').textContent = `${pct}% correct`;
+
+  const missedNums = Object.keys(state.results)
+    .filter(n=>state.results[n]==='wrong')
+    .map(Number);
+
+  const panel = el('missedPanel');
+  const list = el('missedList');
+  list.innerHTML = '';
+  if(missedNums.length){
+    panel.style.display = 'block';
+    missedNums.sort((a,b)=>a-b).forEach(num=>{
+      const q = QUESTIONS.find(qq=>qq.num===num);
+      const item = document.createElement('div');
+      item.className = 'missed-item';
+      item.innerHTML = `<b>Q${num}.</b> ${q.q} — <span class="ans">${q.correct}. ${q.options[q.correct]}</span>`;
+      list.appendChild(item);
+    });
+  } else {
+    panel.style.display = 'none';
+  }
+
+  showScreen('end');
+}
+</script>
+</body>
+</html>
