@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electrostatics Quiz - Class 9 | FES Chapter 1</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Nunito:wght@400;600;700&display=swap');
+
+  :root {
+    --electric-blue: #1a73e8;
+    --deep-navy: #0d1b3e;
+    --glow-cyan: #00d4ff;
+    --spark-yellow: #ffd700;
+    --correct-green: #00c853;
+    --wrong-red: #e53935;
+    --card-bg: #ffffff;
+    --text: #1a1a2e;
+    --muted: #5c6bc0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 16px; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #0d1b3e 0%, #1a2a6c 50%, #1a73e8 100%);
+    min-height: 100vh;
+    padding: 28px 16px 40px;
+    color: var(--text);
+  }
+
+  /* ── WRAPPER ── */
+  .wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    padding: 24px 20px 18px;
+    color: white;
+  }
+
+  .lightning {
+    font-size: 3rem;
+    animation: pulse 1.5s infinite;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  @keyframes pulse {
+    0%,100% { transform: scale(1);   filter: drop-shadow(0 0 6px #ffd700); }
+    50%      { transform: scale(1.2); filter: drop-shadow(0 0 18px #ffd700); }
+  }
+
+  .subject-badge {
+    display: inline-block;
+    background: rgba(255,215,0,0.18);
+    border: 1.5px solid var(--spark-yellow);
+    color: var(--spark-yellow);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 18px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+
+  .header h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .header h1 span { color: var(--glow-cyan); }
+
+  .header .sub-info {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 4px;
+  }
+
+  .header .sub-hint {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 0;
+  }
+
+  /* ── SCORE BAR ── */
+  .score-bar {
+    display: flex;
+    justify-content: space-around;
+    background: rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 12px 10px;
+    color: white;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin: 18px 0 14px;
+    gap: 4px;
+  }
+
+  .score-bar .item { text-align: center; flex: 1; }
+
+  .score-bar .item .val {
+    font-size: 1.5rem;
+    font-weight: 800;
+    font-family: 'Poppins', sans-serif;
+    display: block;
+    line-height: 1.1;
+    margin-bottom: 3px;
+  }
+
+  .score-bar .item .lbl {
+    font-size: 0.7rem;
+    opacity: 0.85;
+    display: block;
+  }
+
+  .score-bar .item .val.c-total   { color: var(--glow-cyan); }
+  .score-bar .item .val.c-attempt { color: #ffffff; }
+  .score-bar .item .val.c-correct { color: var(--correct-green); }
+  .score-bar .item .val.c-wrong   { color: var(--wrong-red); }
+  .score-bar .item .val.c-skip    { color: var(--spark-yellow); }
+
+  .score-bar .divider {
+    width: 1px;
+    background: rgba(255,255,255,0.2);
+    align-self: stretch;
+    margin: 4px 0;
+  }
+
+  /* ── PROGRESS ── */
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    height: 8px;
+    margin: 10px 0 6px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--glow-cyan), var(--spark-yellow));
+    border-radius: 10px;
+    transition: width 0.4s ease;
+  }
+
+  .progress-label {
+    text-align: right;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 18px;
+  }
+
+  /* ── QUIZ CARD ── */
+  .quiz-card {
+    background: var(--card-bg);
+    border-radius: 22px;
+    padding: 36px 40px 30px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.28);
+    position: relative;
+    overflow: hidden;
+    animation: slideIn 0.35s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .quiz-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #1a73e8, #00d4ff, #ffd700);
+  }
+
+  .q-number {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .question-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--deep-navy);
+    line-height: 1.6;
+    margin-bottom: 26px;
+  }
+
+  /* ── OPTIONS ── */
+  .options { display: flex; flex-direction: column; gap: 12px; }
+
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    border: 2.5px solid #e0e7ff;
+    border-radius: 14px;
+    background: #f8f9ff;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.97rem;
+    font-weight: 600;
+    color: var(--text);
+    text-align: left;
+    transition: all 0.2s ease;
+    width: 100%;
+  }
+
+  .option-btn:hover:not(:disabled) {
+    border-color: var(--electric-blue);
+    background: #e8efff;
+    transform: translateX(5px);
+  }
+
+  .option-btn .opt-label {
+    min-width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #e0e7ff;
+    color: var(--electric-blue);
+    font-weight: 800;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .option-btn.correct {
+    border-color: var(--correct-green);
+    background: #e8fdf1;
+  }
+  .option-btn.correct .opt-label {
+    background: var(--correct-green);
+    color: white;
+  }
+
+  .option-btn.wrong {
+    border-color: var(--wrong-red);
+    background: #fff0f0;
+  }
+  .option-btn.wrong .opt-label {
+    background: var(--wrong-red);
+    color: white;
+  }
+
+  .option-btn:disabled { cursor: not-allowed; }
+
+  /* ── FEEDBACK ── */
+  .feedback {
+    margin-top: 20px;
+    padding: 16px 20px;
+    border-radius: 14px;
+    font-size: 0.93rem;
+    font-weight: 700;
+    display: none;
+    animation: popIn 0.3s ease;
+  }
+
+  @keyframes popIn {
+    0%   { transform: scale(0.85); opacity: 0; }
+    100% { transform: scale(1);    opacity: 1; }
+  }
+
+  .feedback.show { display: flex; align-items: flex-start; gap: 12px; }
+
+  .feedback.correct-fb {
+    background: linear-gradient(135deg, #d4edda, #c3fce3);
+    color: #1b5e20;
+    border: 1.5px solid var(--correct-green);
+  }
+
+  .feedback.wrong-fb {
+    background: linear-gradient(135deg, #fde8e8, #ffd5d5);
+    color: #b71c1c;
+    border: 1.5px solid var(--wrong-red);
+  }
+
+  .feedback .emoji { font-size: 1.7rem; flex-shrink: 0; }
+  .feedback .fb-text { flex: 1; line-height: 1.5; }
+
+  /* ── NAV ── */
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    gap: 14px;
+  }
+
+  .btn {
+    padding: 13px 28px;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .btn-prev {
+    background: #e0e7ff;
+    color: var(--electric-blue);
+  }
+  .btn-prev:hover:not(:disabled) { background: #c7d4ff; transform: translateY(-2px); }
+  .btn-prev:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .btn-skip {
+    background: #fff8e1;
+    color: #e65100;
+    border: 2px solid #ffd700;
+    padding: 11px 22px;
+  }
+  .btn-skip:hover:not(:disabled) { background: #ffe082; transform: translateY(-2px); }
+  .btn-skip:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  .btn-next {
+    background: linear-gradient(135deg, #1a73e8, #00d4ff);
+    color: white;
+    box-shadow: 0 4px 16px rgba(26,115,232,0.4);
+  }
+  .btn-next:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(26,115,232,0.5); }
+  .btn-next:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  /* ── RESULT SCREEN ── */
+  .result-screen { display: none; text-align: center; padding: 24px 0; }
+  .result-screen.show { display: block; }
+
+  .result-card {
+    background: white;
+    border-radius: 24px;
+    padding: 48px 40px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.22);
+  }
+
+  .result-emoji { font-size: 5rem; margin-bottom: 12px; }
+
+  .result-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--deep-navy);
+    margin-bottom: 8px;
+  }
+
+  .result-score {
+    font-size: 4.5rem;
+    font-weight: 800;
+    font-family: 'Poppins', sans-serif;
+    color: var(--electric-blue);
+    margin: 16px 0;
+    line-height: 1;
+  }
+
+  .result-grade {
+    display: inline-block;
+    padding: 10px 30px;
+    border-radius: 24px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 28px;
+  }
+
+  .grade-A { background: #e8fdf1; color: #1b5e20; border: 2px solid #00c853; }
+  .grade-B { background: #e3f2fd; color: #0d47a1; border: 2px solid #1a73e8; }
+  .grade-C { background: #fff8e1; color: #e65100; border: 2px solid #ffd700; }
+  .grade-D { background: #fff0f0; color: #b71c1c; border: 2px solid #e53935; }
+
+  .result-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 20px 0 30px;
+  }
+
+  .stat { text-align: center; }
+  .stat .s-val {
+    font-size: 2rem;
+    font-weight: 800;
+    font-family: 'Poppins', sans-serif;
+    display: block;
+  }
+  .stat .s-label {
+    font-size: 0.82rem;
+    color: #666;
+    font-weight: 600;
+    display: block;
+    margin-top: 4px;
+  }
+
+  .btn-restart {
+    background: linear-gradient(135deg, #1a73e8, #00d4ff);
+    color: white;
+    border: none;
+    padding: 16px 48px;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(26,115,232,0.4);
+    transition: all 0.2s;
+  }
+  .btn-restart:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(26,115,232,0.5); }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    color: rgba(255,255,255,0.6);
+    font-size: 0.8rem;
+    margin-top: 28px;
+    padding-bottom: 10px;
+    line-height: 1.8;
+  }
+  .footer strong { color: rgba(255,255,255,0.92); font-size: 0.85rem; }
+
+  /* ══════════════════════════════════════════
+     RESPONSIVE: TABLET  (≤ 768px)
+  ══════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    body { padding: 18px 12px 32px; }
+
+    .header h1  { font-size: 1.55rem; }
+    .lightning  { font-size: 2.4rem; }
+
+    .score-bar  { padding: 10px 6px; }
+    .score-bar .item .val  { font-size: 1.2rem; }
+    .score-bar .item .lbl  { font-size: 0.65rem; }
+
+    .quiz-card  { padding: 26px 24px 22px; }
+    .question-text { font-size: 1rem; margin-bottom: 20px; }
+    .option-btn { font-size: 0.9rem; padding: 12px 16px; gap: 12px; }
+    .option-btn .opt-label { min-width: 28px; height: 28px; font-size: 0.78rem; }
+
+    .feedback   { font-size: 0.88rem; padding: 13px 16px; }
+    .feedback .emoji { font-size: 1.4rem; }
+
+    .btn        { padding: 11px 18px; font-size: 0.85rem; }
+    .btn-skip   { padding: 10px 16px; }
+
+    .result-card    { padding: 36px 24px; }
+    .result-title   { font-size: 1.5rem; }
+    .result-score   { font-size: 3.5rem; }
+    .result-stats   { gap: 24px; }
+    .stat .s-val    { font-size: 1.6rem; }
+    .btn-restart    { padding: 14px 36px; font-size: 0.95rem; }
+  }
+
+  /* ══════════════════════════════════════════
+     RESPONSIVE: MOBILE  (≤ 480px)
+  ══════════════════════════════════════════ */
+  @media (max-width: 480px) {
+    body { padding: 12px 10px 28px; }
+
+    .header { padding: 16px 10px 12px; }
+    .lightning  { font-size: 2rem; }
+    .header h1  { font-size: 1.25rem; }
+    .sub-info   { font-size: 0.8rem; }
+    .sub-hint   { font-size: 0.72rem; }
+    .subject-badge { font-size: 0.62rem; padding: 4px 12px; letter-spacing: 1.5px; }
+
+    /* Score bar: 2-row grid on tiny screens */
+    .score-bar {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      padding: 10px 8px;
+      gap: 0;
+    }
+    .score-bar .divider { display: none; }
+    .score-bar .item .val  { font-size: 1.1rem; }
+    .score-bar .item .lbl  { font-size: 0.6rem; }
+
+    .progress-label { font-size: 0.7rem; }
+
+    .quiz-card  { padding: 18px 14px 16px; border-radius: 16px; }
+    .q-number   { font-size: 0.65rem; margin-bottom: 8px; }
+    .question-text { font-size: 0.92rem; line-height: 1.5; margin-bottom: 16px; }
+
+    .options { gap: 9px; }
+    .option-btn {
+      font-size: 0.83rem;
+      padding: 10px 12px;
+      gap: 10px;
+      border-radius: 11px;
+    }
+    .option-btn .opt-label {
+      min-width: 26px;
+      height: 26px;
+      font-size: 0.72rem;
+    }
+
+    .feedback   { font-size: 0.82rem; padding: 11px 13px; margin-top: 14px; gap: 8px; }
+    .feedback .emoji { font-size: 1.3rem; }
+
+    /* Nav: stack nicely */
+    .nav {
+      margin-top: 16px;
+      gap: 8px;
+    }
+    .btn        { padding: 10px 14px; font-size: 0.8rem; border-radius: 10px; }
+    .btn-skip   { padding: 9px 12px; font-size: 0.78rem; }
+
+    .result-card  { padding: 28px 18px; border-radius: 18px; }
+    .result-emoji { font-size: 3.5rem; }
+    .result-title { font-size: 1.25rem; }
+    .result-score { font-size: 3rem; }
+    .result-grade { font-size: 0.88rem; padding: 8px 20px; }
+    .result-stats { gap: 16px; }
+    .stat .s-val  { font-size: 1.4rem; }
+    .stat .s-label{ font-size: 0.72rem; }
+    .btn-restart  { padding: 12px 28px; font-size: 0.88rem; }
+
+    .footer { font-size: 0.72rem; margin-top: 20px; }
+    .footer strong { font-size: 0.78rem; }
+  }
+
+  /* ══════════════════════════════════════════
+     DESKTOP ENHANCEMENT  (≥ 1024px)
+  ══════════════════════════════════════════ */
+  @media (min-width: 1024px) {
+    .wrapper { max-width: 900px; }
+
+    .header h1 { font-size: 2.5rem; }
+    .lightning  { font-size: 3.4rem; }
+    .sub-info   { font-size: 1rem; }
+
+    .score-bar { padding: 14px 24px; }
+    .score-bar .item .val { font-size: 1.7rem; }
+    .score-bar .item .lbl { font-size: 0.78rem; }
+
+    .quiz-card { padding: 44px 52px 36px; border-radius: 26px; }
+    .q-number  { font-size: 0.78rem; margin-bottom: 14px; }
+    .question-text { font-size: 1.22rem; margin-bottom: 30px; line-height: 1.65; }
+
+    .options { gap: 14px; }
+    .option-btn { font-size: 1.03rem; padding: 16px 24px; gap: 18px; border-radius: 16px; }
+    .option-btn .opt-label { min-width: 36px; height: 36px; font-size: 0.9rem; }
+
+    .feedback  { font-size: 0.98rem; padding: 18px 24px; margin-top: 24px; }
+    .feedback .emoji { font-size: 1.9rem; }
+
+    .nav { margin-top: 28px; gap: 18px; }
+    .btn { padding: 14px 36px; font-size: 0.96rem; border-radius: 14px; }
+    .btn-skip { padding: 13px 28px; }
+
+    .result-card  { padding: 56px 60px; }
+    .result-emoji { font-size: 5.5rem; }
+    .result-title { font-size: 2.2rem; }
+    .result-score { font-size: 5rem; }
+    .result-stats { gap: 52px; }
+    .stat .s-val  { font-size: 2.2rem; }
+    .stat .s-label{ font-size: 0.88rem; }
+    .btn-restart  { padding: 18px 56px; font-size: 1.1rem; }
+
+    .footer { font-size: 0.85rem; }
+    .footer strong { font-size: 0.9rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- ── HEADER ── -->
+  <div class="header">
+    <span class="lightning">⚡</span>
+    <div class="subject-badge">FES · Class 9 · Chapter 1</div>
+    <h1>Introduction to <span>Electrostatics</span></h1>
+    <p class="sub-info">Test your knowledge with 63 questions</p>
+    <p class="sub-hint">Select the correct option for each question</p>
+
+    <div class="score-bar" id="scoreBar">
+      <div class="item">
+        <span class="val c-total" id="qTotal">63</span>
+        <span class="lbl">Total</span>
+      </div>
+      <div class="divider"></div>
+      <div class="item">
+        <span class="val c-attempt" id="qAttempted">0</span>
+        <span class="lbl">Attempted</span>
+      </div>
+      <div class="divider"></div>
+      <div class="item">
+        <span class="val c-correct" id="qCorrect">0</span>
+        <span class="lbl">Correct ✓</span>
+      </div>
+      <div class="divider"></div>
+      <div class="item">
+        <span class="val c-wrong" id="qWrong">0</span>
+        <span class="lbl">Wrong ✗</span>
+      </div>
+      <div class="divider"></div>
+      <div class="item">
+        <span class="val c-skip" id="qSkipped">0</span>
+        <span class="lbl">Skipped ⏭</span>
+      </div>
+    </div>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="progressBar" style="width:0%"></div>
+    </div>
+    <div class="progress-label" id="progressLabel">Question 1 of 63</div>
+  </div>
+
+  <!-- ── QUIZ SECTION ── -->
+  <div id="quizSection">
+    <div class="quiz-card" id="quizCard">
+      <div class="q-number" id="qNum">Question 1 of 63</div>
+      <div class="question-text" id="questionText"></div>
+      <div class="options" id="optionsContainer"></div>
+      <div class="feedback" id="feedback">
+        <span class="emoji" id="feedbackEmoji"></span>
+        <div class="fb-text" id="feedbackText"></div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="btn btn-prev" id="prevBtn" onclick="prevQuestion()">← Previous</button>
+      <button class="btn btn-skip" id="skipBtn" onclick="skipQuestion()">⏭ Skip</button>
+      <button class="btn btn-next" id="nextBtn" onclick="nextQuestion()" disabled>Next →</button>
+    </div>
+  </div>
+
+  <!-- ── RESULT SECTION ── -->
+  <div class="result-screen" id="resultScreen">
+    <div class="result-card">
+      <div class="result-emoji" id="resultEmoji"></div>
+      <div class="result-title" id="resultTitle"></div>
+      <div class="result-score" id="resultScore"></div>
+      <div class="result-grade" id="resultGrade"></div>
+      <div class="result-stats">
+        <div class="stat">
+          <span class="s-val" style="color:#00c853" id="rs-correct">0</span>
+          <span class="s-label">Correct</span>
+        </div>
+        <div class="stat">
+          <span class="s-val" style="color:#e53935" id="rs-wrong">0</span>
+          <span class="s-label">Wrong</span>
+        </div>
+        <div class="stat">
+          <span class="s-val" style="color:#ffd700" id="rs-skip">0</span>
+          <span class="s-label">Skipped</span>
+        </div>
+      </div>
+      <button class="btn-restart" onclick="restartQuiz()">🔄 Restart Quiz</button>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <div class="footer">
+    <strong>Created by: Hikmat Shahi Thakuri</strong><br>
+    Assistant Computer Instructor<br>
+    Shree Kankali Secondary School, Chandragiri, Kathmandu<br>
+    Subject: FES &nbsp;|&nbsp; Class-9 &nbsp;|&nbsp; Chapter-1: Introduction to Electrostatics
+  </div>
+
+</div><!-- /wrapper -->
+
+<script>
+const questions = [
+  { q: "What is electricity?", options: ["The state of electric charge either at rest or in motion", "Only the flow of electrons through a wire", "The study of magnetic fields only", "The conversion of heat to light energy"], answer: 0, explanation: "Electricity is the state of electric charge either at rest or in motion." },
+  { q: "Which particle carries negative charge?", options: ["Proton", "Neutron", "Electron", "Positron"], answer: 2, explanation: "Electrons are negatively charged fundamental particles." },
+  { q: "Which particle carries positive charge?", options: ["Electron", "Neutron", "Photon", "Proton"], answer: 3, explanation: "Protons carry positive charge." },
+  { q: "Static electricity deals with the study of electricity at:", options: ["Motion", "Rest", "High speed", "Low temperature"], answer: 1, explanation: "Static electricity (electrostatics) deals with electricity at rest." },
+  { q: "Dynamic electricity deals with the study of electricity at:", options: ["Rest", "Motion", "Constant voltage", "Zero potential"], answer: 1, explanation: "Dynamic electricity deals with electricity in motion, e.g., electric current flowing through wires." },
+  { q: "Which of the following is an example of static electricity?", options: ["Electric current in wires", "Attraction of paper to a plastic rod rubbed with silk", "Lightning rod operation", "Battery discharge"], answer: 1, explanation: "Attraction of pieces of paper to a plastic rod when rubbed with silk or cotton is an example of static electricity." },
+  { q: "Which of the following is an example of dynamic electricity?", options: ["Rubbing a balloon on hair", "Lightning in the sky", "Electric current flowing through wires", "Attraction of comb to paper"], answer: 2, explanation: "Electric current flowing through wires is an example of dynamic electricity." },
+  { q: "Electricity can be produced by which method?", options: ["Friction only", "Chemical reaction only", "Induction only", "Friction, chemical, and induction"], answer: 3, explanation: "Electricity can be separated by expenditure of energy through friction, chemical, induction and manifestation by electric charge." },
+  { q: "In which year did Benjamin Franklin prove static electricity and lightning were the same?", options: ["1800", "1752", "1821", "1831"], answer: 1, explanation: "In 1752, Benjamin Franklin proved that static electricity and lightning were the same by tying a key into a kite string during a storm." },
+  { q: "Who invented the first electric battery in 1800?", options: ["Thomas Edison", "Michael Faraday", "Alessandro Volta", "Benjamin Franklin"], answer: 2, explanation: "In 1800, Alessandro Volta invented the first electric battery. The unit 'volt' was named after him." },
+  { q: "The unit 'volt' was named after:", options: ["Alessandro Volta", "Nikola Tesla", "Georg Ohm", "Humphry Davy"], answer: 0, explanation: "The unit 'volt' was given according to Alessandro Volta's name." },
+  { q: "Who invented the first effectively working Arc lamp in 1808?", options: ["Thomas Edison", "Humphry Davy", "Joseph Swan", "Michael Faraday"], answer: 1, explanation: "In 1808, Humphry Davy invented the first effectively working 'Arc lamp' — a piece of carbon that glowed when attached to a battery by wires." },
+  { q: "The Arc lamp was made of which material?", options: ["Iron filament", "Tungsten wire", "A piece of carbon", "Copper wire"], answer: 2, explanation: "The Arc lamp was a piece of carbon that glowed when attached to a battery by wires." },
+  { q: "In 1820, who confirmed the relationship between electricity and magnetism?", options: ["Faraday and Tesla", "Oersted, Ampere and Arago", "Edison and Swan", "Franklin and Volta"], answer: 1, explanation: "In 1820, Hans Christian Oersted, AM Ampere, and DfG Arago confirmed the relationship between electricity and magnetism through separate experiments." },
+  { q: "Who invented the first electric motor in 1821?", options: ["Alessandro Volta", "Georg Ohm", "Michael Faraday", "Nikola Tesla"], answer: 2, explanation: "In 1821, Michael Faraday invented the first electric motor." },
+  { q: "Georg Ohm defined the relationship between voltage, current and resistance in which year?", options: ["1820", "1826", "1831", "1832"], answer: 1, explanation: "In 1826, Georg Ohm defined the relationship between voltage, current and resistance, also known as Ohm's Law." },
+  { q: "In 1831, Michael Faraday proved electricity can be induced by:", options: ["Friction", "Chemical reaction", "Change in magnetic field", "Static charge"], answer: 2, explanation: "Using his induction ring, Michael Faraday proved in 1831 that electricity can be induced by the change in magnetic field." },
+  { q: "Who built the first dynamo and electric generator in 1832?", options: ["Samuel Morse", "Hippolyte Pixil", "JC Maxwell", "William Stanley"], answer: 1, explanation: "In 1832, using Faraday's principle, Hippolyte Pixil built the first dynamo and 'electric generator' capable of delivering power for industry." },
+  { q: "Who invented the electric telegraph in 1844?", options: ["Thomas Edison", "Michael Faraday", "Samuel Morse", "Joseph Swan"], answer: 2, explanation: "In 1844, Samuel Morse invented the electric telegraph, a machine that could send messages long distances across the wires." },
+  { q: "JC Maxwell unified magnetism, electricity and light in:", options: ["1844", "1860", "1878", "1882"], answer: 1, explanation: "In 1860, JC Maxwell published a mathematical theory of electromagnetic field, creating a new era of physics by unifying magnetism, electricity and light." },
+  { q: "Who invented the first incandescent light bulb in 1878?", options: ["Thomas Edison", "Joseph Swan", "Nikola Tesla", "William Stanley"], answer: 1, explanation: "In 1878, Joseph Swan, an English man, invented the first incandescent light bulb." },
+  { q: "Thomas Edison invented a long-lasting incandescent bulb in 1879 that could be used for how many hours initially?", options: ["100 hours", "40 hours", "200 hours", "500 hours"], answer: 1, explanation: "In 1879, Thomas Edison invented an incandescent light bulb that can be used for almost 40 hours. By 1880, his bulb could be used up to 1200 hours." },
+  { q: "Thomas Edison opened the Pearl Street Power Station in:", options: ["1878", "1879", "1882", "1884"], answer: 2, explanation: "In 1882, Thomas Edison opened the Pearl Street Power Station in New York City, one of the world's first central electric power plants." },
+  { q: "The Pearl Street Power Station used which type of current?", options: ["Alternating current (AC)", "Direct current (DC)", "Pulsating current", "Static current"], answer: 1, explanation: "The Pearl Street Power Station was a direct current (DC) power system, unlike AC that we use today." },
+  { q: "Nikola Tesla invented the Tesla Coil (transformer) in:", options: ["1882", "1883", "1884", "1886"], answer: 1, explanation: "In 1883, Nikola Tesla invented the 'Tesla coil', a transformer that changes electricity from low voltage to high voltage." },
+  { q: "Nikola Tesla invented the electric alternator that produces which type of current?", options: ["Direct current (DC)", "Alternating current (AC)", "Pulsating current", "Static current"], answer: 1, explanation: "In 1884, Nikola Tesla invented the electric alternator, an electric generator that produces Alternating Current (AC)." },
+  { q: "Who demonstrated the first polyphase AC electrical system in 1890?", options: ["Thomas Edison", "William Stanley", "Nikola Tesla", "Georg Ohm"], answer: 2, explanation: "In 1890, Nikola Tesla demonstrated the first polyphase Alternating Current (AC) electrical system." },
+  { q: "The word 'Atom' comes from which language and means:", options: ["Latin, 'smallest'", "Greek, 'indivisible'", "French, 'particle'", "German, 'element'"], answer: 1, explanation: "Atom is a Greek word which means 'indivisible'. The Greeks believed matter can be broken into very small indivisible particles called atoms." },
+  { q: "An atom consists of a positively charged center known as:", options: ["Electron cloud", "Nucleus", "Orbit", "Shell"], answer: 1, explanation: "An atom consists of a positively charged center known as nucleus, surrounded by negatively charged electrons." },
+  { q: "The structure of an atom consists of:", options: ["Only nucleus", "Nucleus and extra nuclear part", "Only electrons", "Protons and electrons only"], answer: 1, explanation: "The structure of atom consists of two parts: (a) An atom nucleus and (b) Extra nuclear part." },
+  { q: "Atomic number is determined by:", options: ["Number of neutrons", "Number of electrons", "Number of protons", "Atomic mass"], answer: 2, explanation: "The number of protons in an atom is called atomic number." },
+  { q: "Atomic weight (mass number) equals:", options: ["Number of protons only", "Number of neutrons only", "Number of protons + number of neutrons", "Number of electrons + neutrons"], answer: 2, explanation: "Atomic weight = Number of protons + Number of neutrons." },
+  { q: "Isotopes are atoms of the same element with different numbers of:", options: ["Protons", "Electrons", "Neutrons", "Protons and electrons"], answer: 2, explanation: "The number of neutrons for a given element can vary for the same atom. Such conditions give rise to isotopes (e.g. ¹H, ²H)." },
+  { q: "1 amu (atomic mass unit) is equal to:", options: ["1.67 × 10⁻²⁷ kg", "9.31 × 10⁻³¹ kg", "1.6 × 10⁻¹⁹ coulomb", "6 × 10¹⁸ electrons"], answer: 0, explanation: "1 amu = 1.67 × 10⁻²⁷ kg, and it signifies either mass of one proton or one neutron." },
+  { q: "The mass of an electron compared to a proton is approximately:", options: ["Same as proton", "Twice the proton mass", "1/1800 of proton mass", "1800 times proton mass"], answer: 2, explanation: "Electrons are smaller in mass compared to protons, weighing only 9.31×10⁻³¹ kg or 1/1800 amu." },
+  { q: "Neutrons contribute to which property of atom?", options: ["Charge only", "Mass only", "Both mass and charge", "Neither mass nor charge"], answer: 1, explanation: "Neutrons are chargeless. Therefore, the number of neutrons in atom contributes to mass but not to charge." },
+  { q: "The charge of one electron is:", options: ["+1.6 × 10⁻¹⁹ coulomb", "-1.6 × 10⁻¹⁹ coulomb", "-9.31 × 10⁻³¹ coulomb", "+9.31 × 10⁻³¹ coulomb"], answer: 1, explanation: "1 electron charge = (-1) = -1.6 × 10⁻¹⁹ coulomb." },
+  { q: "The charge of one proton is:", options: ["-1.6 × 10⁻¹⁹ coulomb", "0 coulomb", "+1.6 × 10⁻¹⁹ coulomb", "+9.31 × 10⁻³¹ coulomb"], answer: 2, explanation: "1 proton charge = (+1) = +1.6 × 10⁻¹⁹ coulomb." },
+  { q: "Electric charge is the physical property of matter that causes it to experience force when placed in:", options: ["Gravitational field", "Electromagnetic field", "Magnetic field only", "Thermal field"], answer: 1, explanation: "Electric charge is the physical property of matter that causes it to experience force when placed in an electromagnetic field." },
+  { q: "How many types of electric charge are there?", options: ["One", "Two", "Three", "Four"], answer: 1, explanation: "There are two types of electric charge: positive and negative charge (commonly carried by proton and electron respectively)." },
+  { q: "The SI unit of electric charge is:", options: ["Volt", "Ampere", "Coulomb", "Joule"], answer: 2, explanation: "The SI unit of charge is Coulomb. Commercially it also has another unit called Ampere-Hour (AH)." },
+  { q: "Charges of different polarity (positive-negative):", options: ["Repel each other", "Have no effect on each other", "Attract each other", "Cancel out completely"], answer: 2, explanation: "Charges of different polarity (positive-negative) attract each other, while charges of same polarity repel each other." },
+  { q: "Which property states that charge can neither be created nor destroyed?", options: ["Quantization of charge", "Conservation of charge", "Transfer of charge", "Polarization of charge"], answer: 1, explanation: "Conservation of charge states that charge can neither be created nor destroyed but can be transferred from one body to another." },
+  { q: "What does quantization of charge mean?", options: ["Charge can be any value", "Electric charge is always an integral multiple of the charge of an electron", "Charge can be negative only", "Charge depends on temperature"], answer: 1, explanation: "All electric charge we find in nature is an integral multiple (n = 1,2,3,4…) of the magnitude of charge carried by electrons. The formula is q = ne." },
+  { q: "How many electrons are present in 1 coulomb of charge?", options: ["1.6 × 10¹⁹", "6 × 10¹⁸", "9 × 10⁹", "3 × 10⁸"], answer: 1, explanation: "1 coulomb charge is the amount of charge present in 6×10¹⁸ electrons. (6×10¹⁸ × 1.602×10⁻¹⁹ = 1C)." },
+  { q: "Charge is a scalar quantity. This means:", options: ["It has magnitude and direction", "It has magnitude but direction is not defined", "It has direction but no magnitude", "It can only be positive"], answer: 1, explanation: "Charge is a scalar quantity — they have fixed value but direction is not defined." },
+  { q: "Transfer of electrons from sodium atom to chlorine atom is an example of:", options: ["Quantization", "Conservation of charge", "Dynamic electricity", "Induction"], answer: 1, explanation: "Transfer of electrons from sodium atom to chlorine atom (common salt) is an example of conservation of charge." },
+  { q: "Electric field is associated with each point in space when:", options: ["Magnetic field is present", "Gravitational field is present", "Charge is present in any form", "Temperature changes occur"], answer: 2, explanation: "Electric field is an electric property associated with each point in space when charge is present in any form." },
+  { q: "Electric field strength (E) is defined as:", options: ["Force per unit charge", "Charge per unit force", "Voltage per unit charge", "Power per unit time"], answer: 0, explanation: "The strength of electric field 'E' at any point may be defined as the force exerted per unit charge at that point. E = f/q." },
+  { q: "The strength of electric field depends on:", options: ["Test charge only", "Source charge, not on test charge", "Both test and source charge equally", "Temperature of the medium"], answer: 1, explanation: "The strength of electric field depends on source charge, not on test charge." },
+  { q: "Electric field lines from a positive charge are oriented:", options: ["Radially inward", "Radially outward", "In circular paths", "Parallel to the charge"], answer: 1, explanation: "The direction of positive charge is oriented radially outward." },
+  { q: "Electric field is a:", options: ["Scalar quantity", "Vector quantity", "Dimensionless quantity", "Tensor quantity"], answer: 1, explanation: "Electric field is a vector quantity and its direction is given by a line tangent of electric field lines." },
+  { q: "Electric field lines start from _____ and terminate on _____:", options: ["Negative charge, positive charge", "Positive charge, negative charge", "Neutral point, positive charge", "Positive charge, neutral point"], answer: 1, explanation: "Electric field lines are depicted as starting on positive charges and terminating on negative charge." },
+  { q: "Coulomb's Law states that force between two charges is directly proportional to:", options: ["Square of distance", "Product of two charges", "Sum of two charges", "Distance between them"], answer: 1, explanation: "Coulomb's Law states the force is directly proportional to the product of two charges (F ∝ Q₁·Q₂)." },
+  { q: "Coulomb's Law states that force is inversely proportional to:", options: ["Product of charges", "Distance between charges", "Square of distance between charges", "Cube of distance between charges"], answer: 2, explanation: "Coulomb's Law: force is inversely proportional to the square of distance between the charges (F ∝ 1/d²)." },
+  { q: "The Coulomb's Law formula is:", options: ["F = kQ₁Q₂d²", "F = k·Q₁·Q₂/d²", "F = Q₁+Q₂/kd", "F = Q₁·Q₂·d/k"], answer: 1, explanation: "Coulomb's Law: F = k·Q₁·Q₂/d², where k is the proportionality constant." },
+  { q: "The value of Coulomb's constant k is:", options: ["8.85 × 10⁻¹² Nm²C⁻²", "9 × 10⁹ Nm²C⁻²", "1.6 × 10⁻¹⁹ Nm²C⁻²", "6 × 10¹⁸ Nm²C⁻²"], answer: 1, explanation: "k = 1/(4πε₀) = 9 × 10⁹ Nm²C⁻²." },
+  { q: "ε₀ (permittivity of free space) equals:", options: ["9 × 10⁹ N⁻¹m⁻²c²", "8.85 × 10⁻¹² N⁻¹m⁻²c²", "1.6 × 10⁻¹⁹ C", "6 × 10¹⁸ C"], answer: 1, explanation: "ε₀ = permittivity of free space = 8.85 × 10⁻¹² N⁻¹m⁻²c²." },
+  { q: "If the distance between two charges is doubled, the electrostatic force becomes:", options: ["Double", "Half", "Four times less", "Four times more"], answer: 2, explanation: "F ∝ 1/d². If distance doubles (d' = 2d), new force F' ∝ 1/(2d)² = 1/4d². So force decreases by 4 times." },
+  { q: "If the distance between two charges is halved, the electrostatic force becomes:", options: ["Half", "Double", "Four times more", "Four times less"], answer: 2, explanation: "F ∝ 1/d². If distance is halved (d' = d/2), F' ∝ 1/(d/2)² = 4/d². So force increases by 4 times." },
+  { q: "Electric potential is defined as:", options: ["Force per unit charge", "Work done per unit charge moved from reference to a specific point", "Charge per unit time", "Current times resistance"], answer: 1, explanation: "Electric potential is the amount of work needed to move a unit charge from a reference point to a specific point against an electric field. V = W/q." },
+  { q: "1 volt is defined as:", options: ["1 joule per ampere", "1 joule of work done to charge a body 1 coulomb", "1 watt per second", "1 coulomb per second"], answer: 1, explanation: "A body is said to have electric potential of 1 volt if 1 joule of work is done to charge the body 1 coulomb." },
+  { q: "The unit of electric potential is:", options: ["Joule", "Coulomb", "Volt", "Ampere"], answer: 2, explanation: "The unit of electric potential is volt." },
+  { q: "Potential difference is defined as:", options: ["Work done to move charge from infinity to a point", "Work done to carry a unit charge from one point to another within an electric field", "Force between two charges", "Charge divided by time"], answer: 1, explanation: "Potential difference is the amount of work done to carry a unit charge from one point to another within an electric field." },
+  { q: "Voltage is:", options: ["The expression of potential difference between two points in an electric field", "The flow of electrons", "The resistance in a circuit", "The power consumed"], answer: 0, explanation: "Voltage is the expression of potential difference between two points in an electric field. It is also pressure on electric through conducting loop." },
+  { q: "Electrical energy is the energy produced due to:", options: ["Flow of charges enforced by potential difference (voltage)", "Static charges at rest", "Magnetic flux only", "Gravitational force"], answer: 0, explanation: "The energy which is produced due to flow of charges which are enforced by potential difference (voltage) is called electrical energy. Unit: joule." },
+  { q: "An electrostatic series is a series of objects that determines:", options: ["How fast electrons travel", "How strongly or weakly an object can hold electrons", "How much charge can be stored", "How electric field varies"], answer: 1, explanation: "An electrostatic series is the series of objects that determines how strongly or weakly an object can hold electrons." },
+  { q: "In the electrostatic series, which material at the top loses electrons most easily?", options: ["Rubber", "Plastic", "Human skin", "Cotton"], answer: 2, explanation: "Human skin is at the top of the electrostatic series, meaning it loses electrons most easily." },
+  { q: "When a plastic scale is rubbed against human hair:", options: ["Scale becomes positively charged and hair negatively charged", "Scale becomes negatively charged and hair becomes positively charged", "Both become neutral", "Both become positively charged"], answer: 1, explanation: "When we rub a plastic scale against our hair, hair loses electrons to the scale, so scale becomes negatively charged and hair becomes positively charged." },
+  { q: "In the electrostatic series, polyester is at the bottom, meaning it:", options: ["Loses electrons most easily", "Strongly holds electrons", "Has no charge", "Is a conductor"], answer: 1, explanation: "Polyester is at the bottom of the electrostatic series, meaning it strongly holds electrons." }
+];
+
+let currentIndex = 0;
+let userAnswers = new Array(questions.length).fill(null);
+let correctCount = 0;
+let wrongCount = 0;
+
+function loadQuestion(index) {
+  const q = questions[index];
+  document.getElementById('qNum').textContent = `Question ${index + 1} of ${questions.length}`;
+  document.getElementById('questionText').textContent = q.q;
+
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  const labels = ['A', 'B', 'C', 'D'];
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="opt-label">${labels[i]}</span><span>${opt}</span>`;
+    btn.onclick = () => selectAnswer(i);
+    container.appendChild(btn);
+  });
+
+  const feedback = document.getElementById('feedback');
+  feedback.className = 'feedback';
+  document.getElementById('nextBtn').disabled = true;
+
+  if (userAnswers[index] !== null) showAnswerState(index);
+
+  const pct = (index / questions.length) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `Question ${index + 1} of ${questions.length}`;
+
+  updateScorebar();
+
+  document.getElementById('prevBtn').disabled = index === 0;
+  document.getElementById('skipBtn').disabled = userAnswers[index] !== null;
+
+  const card = document.getElementById('quizCard');
+  card.style.animation = 'none';
+  void card.offsetWidth;
+  card.style.animation = 'slideIn 0.35s ease';
+}
+
+function selectAnswer(selectedIndex) {
+  if (userAnswers[currentIndex] !== null) return;
+  const q = questions[currentIndex];
+  if (selectedIndex === q.answer) correctCount++;
+  else wrongCount++;
+  userAnswers[currentIndex] = selectedIndex;
+  showAnswerState(currentIndex);
+  document.getElementById('nextBtn').disabled = false;
+  updateScorebar();
+}
+
+function showAnswerState(index) {
+  const q = questions[index];
+  const selected = userAnswers[index];
+  const buttons = document.querySelectorAll('.option-btn');
+  const feedback = document.getElementById('feedback');
+
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.answer) btn.classList.add('correct');
+    if (i === selected && selected !== q.answer) btn.classList.add('wrong');
+  });
+
+  if (selected === 'skipped') {
+    feedback.className = 'feedback wrong-fb show';
+    document.getElementById('feedbackEmoji').textContent = '⏭';
+    document.getElementById('feedbackText').innerHTML = `<strong>Skipped!</strong> The correct answer is: <strong>${q.options[q.answer]}</strong>. ${q.explanation}`;
+  } else if (selected === q.answer) {
+    feedback.className = 'feedback correct-fb show';
+    document.getElementById('feedbackEmoji').textContent = '🎉';
+    document.getElementById('feedbackText').innerHTML = `<strong>Congratulations! Wow! 🤩</strong><br>That's correct! ${q.explanation}`;
+  } else {
+    feedback.className = 'feedback wrong-fb show';
+    document.getElementById('feedbackEmoji').textContent = '😔';
+    document.getElementById('feedbackText').innerHTML = `<strong>Oops! 😢</strong> Wrong answer. The correct answer is: <strong>${q.options[q.answer]}</strong>. ${q.explanation}`;
+  }
+
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function updateScorebar() {
+  const attempted = userAnswers.filter(a => a !== null && a !== 'skipped').length;
+  const skipped   = userAnswers.filter(a => a === 'skipped').length;
+  document.getElementById('qAttempted').textContent = attempted;
+  document.getElementById('qSkipped').textContent   = skipped;
+  document.getElementById('qCorrect').textContent   = correctCount;
+  document.getElementById('qWrong').textContent     = wrongCount;
+}
+
+function skipQuestion() {
+  if (userAnswers[currentIndex] !== null) return;
+  userAnswers[currentIndex] = 'skipped';
+  updateScorebar();
+  if (currentIndex < questions.length - 1) { currentIndex++; loadQuestion(currentIndex); }
+  else showResult();
+}
+
+function nextQuestion() {
+  if (currentIndex < questions.length - 1) { currentIndex++; loadQuestion(currentIndex); }
+  else showResult();
+}
+
+function prevQuestion() {
+  if (currentIndex > 0) { currentIndex--; loadQuestion(currentIndex); }
+}
+
+function showResult() {
+  document.getElementById('quizSection').style.display = 'none';
+  document.getElementById('resultScreen').classList.add('show');
+
+  const total   = questions.length;
+  const skipped = userAnswers.filter(a => a === 'skipped').length;
+  const pct     = Math.round((correctCount / total) * 100);
+
+  document.getElementById('rs-correct').textContent = correctCount;
+  document.getElementById('rs-wrong').textContent   = wrongCount;
+  document.getElementById('rs-skip').textContent    = skipped;
+  document.getElementById('resultScore').textContent = `${pct}%`;
+
+  let emoji, title, gradeClass, gradeText;
+  if (pct >= 80)      { emoji='🏆'; title='Outstanding Performance!'; gradeClass='grade-A'; gradeText='Grade A — Excellent!'; }
+  else if (pct >= 60) { emoji='😊'; title='Good Job!';                gradeClass='grade-B'; gradeText='Grade B — Good'; }
+  else if (pct >= 40) { emoji='🙂'; title='Keep Practicing!';         gradeClass='grade-C'; gradeText='Grade C — Average'; }
+  else                { emoji='📚'; title='Need More Study!';          gradeClass='grade-D'; gradeText='Grade D — Needs Improvement'; }
+
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultTitle').textContent = title;
+  const gradeEl = document.getElementById('resultGrade');
+  gradeEl.textContent = gradeText;
+  gradeEl.className   = 'result-grade ' + gradeClass;
+  document.getElementById('progressBar').style.width = '100%';
+}
+
+function restartQuiz() {
+  currentIndex  = 0;
+  userAnswers   = new Array(questions.length).fill(null);
+  correctCount  = 0;
+  wrongCount    = 0;
+  document.getElementById('resultScreen').classList.remove('show');
+  document.getElementById('quizSection').style.display = 'block';
+  updateScorebar();
+  loadQuestion(0);
+}
+
+loadQuestion(0);
+</script>
+</body>
+</html>
