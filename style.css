@@ -1500,9 +1500,9 @@ footer {
 .dropdown-content li{
     list-style:none;
 }
-.dropdown i {
-    width: 5px;
-    font-size: 2px;
+.dropdown .dropbtn i {
+    width: 25px;
+    font-size: 20px;
 }
 .dropdown-content a{
     display:block;
