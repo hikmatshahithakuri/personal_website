@@ -1469,41 +1469,57 @@ footer {
 
 
 
-dropdown{
-    float:left;
-    overflow:hidden;
+/* Kankali School Dropdown */
+.dropdown{
+    position: relative;
+    width: 100%;
 }
 
 .dropdown .dropbtn{
-    border:none;
-    outline:none;
-    color:black;
-    background:inherit;
-    padding:14px 16px;
-    font-size:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    width:100%;
+    padding:12px 25px;
+    color:var(--text-dark);
+    text-decoration:none;
     cursor:pointer;
 }
 
 .dropdown-content{
     display:none;
-    position:absolute;
-    background:#008000;
-    min-width:200px;
-    box-shadow:0 0 10px rgba(0,0,0,0.2);
+    background:rgba(231,76,60,0.08);
+    margin-left:20px;
+    border-left:3px solid var(--primary-color);
+}
+
+.dropdown-content li{
+    list-style:none;
 }
 
 .dropdown-content a{
-    float:none;
-    color:black;
-    padding:12px 16px;
     display:block;
+    padding:10px 20px;
+    color:var(--text-dark);
     text-decoration:none;
+    font-size:14px;
 }
 
 .dropdown-content a:hover{
-    background:#ddd;
+    background:rgba(231,76,60,0.15);
+    color:var(--primary-color);
 }
 
+/* Hover Open */
 .dropdown:hover .dropdown-content{
     display:block;
+}
+
+.arrow{
+    font-size:12px;
+    transition:0.3s;
+}
+
+.dropdown:hover .arrow{
+    transform:rotate(180deg);
 }
