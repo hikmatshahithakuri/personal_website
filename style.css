@@ -1500,7 +1500,7 @@ footer {
 .dropdown-content li{
     list-style:none;
 }
-.dropdown li a i {
+.dropdown a i {
     width: 25px;
     font-size: 20px;
 }
