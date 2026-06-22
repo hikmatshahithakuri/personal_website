@@ -1472,7 +1472,6 @@ footer {
 /* Kankali School Dropdown */
 .dropdown{
     position: relative;
-    width: 100%;
 }
 
 .dropdown .dropbtn{
@@ -1487,10 +1486,15 @@ footer {
 }
 
 .dropdown-content{
-    display:none;
-    background:rgba(231,76,60,0.08);
-    margin-left:20px;
-    border-left:3px solid var(--primary-color);
+       display:none;
+    position:absolute;
+    bottom:100%;   /* तल होइन माथि खुल्ने */
+    left:0;
+    width:100%;
+    background:#fff;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+    border-radius:8px;
+    z-index:9999;
 }
 
 .dropdown-content li{
